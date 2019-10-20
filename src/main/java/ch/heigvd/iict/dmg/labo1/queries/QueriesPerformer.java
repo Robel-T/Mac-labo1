@@ -86,7 +86,7 @@ public class QueriesPerformer {
 			TopDocs results = indexSearcher.search(query, 10);
 			ScoreDoc[] lucene_score = results.scoreDocs;
 
-			for (int i = 0; i < 10; ++i) {
+			for (int i = 0; i < Math.min(10,results.totalHits.value); ++i) {
 				Document doc = indexSearcher.doc(lucene_score[i].doc);
 				String publication_id = doc.get("storedId");
 				String title = doc.get("title");

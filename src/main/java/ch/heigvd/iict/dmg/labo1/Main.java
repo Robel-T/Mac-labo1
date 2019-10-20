@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 
+import static jdk.nashorn.internal.parser.TokenType.AND;
+
 public class Main {
 
 	public static final String INDEX_FOLDER = "Index";
@@ -65,7 +67,16 @@ public class Main {
 
 	private static void searching(QueriesPerformer queriesPerformer) {
 		// Example
-		queriesPerformer.query("Information Retrieval");
+		queriesPerformer.query("(\"Information Retrieval\")");
+		queriesPerformer.query("(\"Information\" AND \"Retrieval\")");
+		queriesPerformer.query("(+\"Retrieval\" \"Information\" !\"Database\")");
+		queriesPerformer.query("(Info*)");
+		queriesPerformer.query("(\"Information Retrieval\"~5)");
+
+
+
+
+
 
 		// TODO student
         // queriesPerformer.query(<containing the term Information Retrieval>);
