@@ -18,7 +18,7 @@ import java.nio.file.Path;
 
 public class Main {
 
-	public static final String INDEX_FOLDER = "IndexStopAnalyzer";
+	public static final String INDEX_FOLDER = "Index";
 
 	public static void main(String[] args) {
 
@@ -59,7 +59,7 @@ public class Main {
 	}
 
 	private static void readingIndex(QueriesPerformer queriesPerformer) {
-		queriesPerformer.printTopRankingTerms("authors", 10);
+		queriesPerformer.printTopRankingTerms("authors", 50);
 		queriesPerformer.printTopRankingTerms("title", 10);
 	}
 
@@ -84,8 +84,8 @@ public class Main {
 		// For the next part "Using different Analyzers" modify this method
 		// and return the appropriate Analyzers asked.
 
-//		Path path = FileSystems.getDefault().getPath("common_words.txt");
-		return new WhitespaceAnalyzer();
+		//Path path = FileSystems.getDefault().getPath("common_words.txt");
+		return new StandardAnalyzer();
 	}
 
 }

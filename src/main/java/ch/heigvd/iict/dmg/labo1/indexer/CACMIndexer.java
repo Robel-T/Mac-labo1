@@ -61,9 +61,16 @@ public class CACMIndexer implements ParserListener {
 
 		// Create all fields for all informations
 		Field storeIdField = new StoredField("storedId", id);
-		Field authorsField = new TextField("authors", authors,Field.Store.YES);
 		Field titleField = new TextField("title",title,Field.Store.YES);
 
+		// Parse authors name
+		String[] authorsField = authors.split(";");
+		for (String s : authorsField) {
+			if (!s.equals(""))
+				doc.add(new StringField("authors", s, Field.Store.YES));
+		}
+
+		// 3.1 Indexing - question 2
 //		FieldType ft = new FieldType(TextField.TYPE_STORED);
 //		ft.setStoreTermVectors(true);
 //		Field authorsField = new Field("authors", authors, ft);
@@ -73,7 +80,6 @@ public class CACMIndexer implements ParserListener {
 			doc.add(new TextField("summary", summary, Field.Store.NO));
 
 		doc.add(storeIdField);
-		doc.add(authorsField);
 		doc.add(titleField);
 
 		try {
