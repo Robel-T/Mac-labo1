@@ -65,7 +65,7 @@ public class Main {
 
 	private static void searching(QueriesPerformer queriesPerformer) {
 		// Example
-		queriesPerformer.query("compiler program");
+		queriesPerformer.query("Information Retrieval");
 
 		// TODO student
         // queriesPerformer.query(<containing the term Information Retrieval>);
@@ -74,18 +74,14 @@ public class Main {
         //
 		// Reminder: it must print the total number of results and
 		// the top 10 results.
+
+
 	}
 
 	private static Analyzer getAnalyzer() throws IOException {
-	    // TODO student... For the part "Indexing and Searching CACM collection
-		// - Indexing" use, as indicated in the instructions,
-		// the StandardAnalyzer class.
-		//
-		// For the next part "Using different Analyzers" modify this method
-		// and return the appropriate Analyzers asked.
-
+		// For StopAnalyzer uncomment next line
 		//Path path = FileSystems.getDefault().getPath("common_words.txt");
-		return new StandardAnalyzer();
+		return new EnglishAnalyzer();
 	}
 
 }

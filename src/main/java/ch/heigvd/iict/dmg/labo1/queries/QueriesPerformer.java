@@ -1,12 +1,19 @@
 package ch.heigvd.iict.dmg.labo1.queries;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.misc.HighFreqTerms;
 import org.apache.lucene.misc.TermStats;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -67,10 +74,32 @@ public class QueriesPerformer {
 	}
 	
 	public void query(String q) {
-		// TODO student
 		// See "Searching" section
 
-		System.out.println("Searching for [" + q +"]");
+		try {
+
+			System.out.println("\n---------------------------------");
+			System.out.println("Searching for [" + q + "]");
+
+			QueryParser qp = new QueryParser("summary", analyzer);
+			Query query = qp.parse(q);
+			TopDocs results = indexSearcher.search(query, 10);
+			ScoreDoc[] lucene_score = results.scoreDocs;
+
+			for (int i = 0; i < 10; ++i) {
+				Document doc = indexSearcher.doc(lucene_score[i].doc);
+				String publication_id = doc.get("storedId");
+				String title = doc.get("title");
+
+				System.out.println(publication_id + ": " + title + " (" + lucene_score[i].score + ")");
+			}
+
+			int numTotalHits = Math.toIntExact(results.totalHits.value);
+			System.out.println(numTotalHits + " total matching documents");
+
+		} catch (ParseException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 	 
 	public void close() {
