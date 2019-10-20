@@ -21,6 +21,8 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static ch.heigvd.iict.dmg.labo1.Main.INDEX_FOLDER;
+
 public class CACMIndexer implements ParserListener {
 	
 	private Directory 	dir 			= null;
@@ -43,7 +45,7 @@ public class CACMIndexer implements ParserListener {
 		if(similarity != null)
 			iwc.setSimilarity(similarity);
 		// 1.3. create index writer
-		Path path = FileSystems.getDefault().getPath("index");
+		Path path = FileSystems.getDefault().getPath(INDEX_FOLDER);
 		try {
 			this.dir = FSDirectory.open(path);
 			this.indexWriter = new IndexWriter(dir, iwc);
@@ -59,11 +61,16 @@ public class CACMIndexer implements ParserListener {
 
 		// Create all fields for all informations
 		Field storeIdField = new StoredField("storedId", id);
-		Field authorsField = new StringField("authors", authors,Field.Store.YES);
-		Field titleField = new StringField("title",title,Field.Store.YES);
+		Field authorsField = new TextField("authors", authors,Field.Store.YES);
+		Field titleField = new TextField("title",title,Field.Store.YES);
+
+//		FieldType ft = new FieldType(TextField.TYPE_STORED);
+//		ft.setStoreTermVectors(true);
+//		Field authorsField = new Field("authors", authors, ft);
 
 		// The summary is not stored
-		doc.add(new TextField("summary", summary, Field.Store.NO));
+		if (summary != null)
+			doc.add(new TextField("summary", summary, Field.Store.NO));
 
 		doc.add(storeIdField);
 		doc.add(authorsField);

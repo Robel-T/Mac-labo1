@@ -3,6 +3,7 @@ package ch.heigvd.iict.dmg.labo1.queries;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.misc.HighFreqTerms;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.Directory;
@@ -12,6 +13,8 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 
+import static ch.heigvd.iict.dmg.labo1.Main.INDEX_FOLDER;
+
 public class QueriesPerformer {
 	
 	private Analyzer		analyzer		= null;
@@ -20,7 +23,7 @@ public class QueriesPerformer {
 
 	public QueriesPerformer(Analyzer analyzer, Similarity similarity) {
 		this.analyzer = analyzer;
-		Path path = FileSystems.getDefault().getPath("index");
+		Path path = FileSystems.getDefault().getPath(INDEX_FOLDER);
 		Directory dir;
 		try {
 			dir = FSDirectory.open(path);
@@ -36,7 +39,12 @@ public class QueriesPerformer {
 	public void printTopRankingTerms(String field, int numTerms) {
 		// TODO student
 		// This methods print the top ranking term for a field.
-		// See "Reading Index".
+		// See "Reading Index"
+
+        HighFreqTerms highFreqTerms = new HighFreqTerms();
+
+        
+
 	    System.out.println("Top ranking terms for field ["  + field +"] are: ");
 	}
 	
